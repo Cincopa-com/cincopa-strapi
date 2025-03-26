@@ -1,0 +1,61 @@
+{
+  "version": "0.0.0",
+  "keywords": [],
+  "type": "commonjs",
+  "exports": {
+    "./package.json": "./package.json",
+    "./strapi-admin": {
+      "source": "./admin/src/index.js",
+      "import": "./dist/admin/index.mjs",
+      "require": "./dist/admin/index.js",
+      "default": "./dist/admin/index.js"
+    },
+    "./strapi-server": {
+      "source": "./server/src/index.js",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "strapi-plugin build",
+    "watch": "strapi-plugin watch",
+    "watch:link": "strapi-plugin watch:link",
+    "verify": "strapi-plugin verify"
+  },
+  "dependencies": {
+    "@strapi/design-system": "^2.0.0-rc.18",
+    "@strapi/icons": "^2.0.0-rc.18",
+    "@strapi/sdk-plugin": "^5.3.2",
+    "react-intl": "^7.1.6"
+  },
+  "devDependencies": {
+    "@strapi/strapi": "^4.25.22",
+    "prettier": "^3.5.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.0",
+    "styled-components": "^6.1.16"
+  },
+  "peerDependencies": {
+    "@strapi/strapi": "^4.25.22",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.0",
+    "styled-components": "^6.1.16"
+  },
+  "strapi": {
+    "kind": "plugin",
+    "name": "cincopa-uploader-plugin",
+    "displayName": "",
+    "description": ""
+  },
+  "name": "cincopa-uploader-plugin",
+  "description": "",
+  "license": "MIT",
+  "author": "Davit Harut <davit@cincopa.com>"
+}
