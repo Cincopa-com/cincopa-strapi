@@ -6,6 +6,10 @@ const controller = ({ strapi }) => ({
       .service('service')
       .getWelcomeMessage();
   },
+  configs(ctx) {
+    console.log('called configs');
+    ctx.body = strapi.plugin('cincopa-uploader-plugin').service('cincopa-services').getConfigs();
+  },
 });
 
 export default controller;
