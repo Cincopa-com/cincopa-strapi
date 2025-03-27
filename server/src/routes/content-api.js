@@ -8,4 +8,12 @@ export default [
       policies: [],
     },
   },
+  {
+    method: 'GET',
+    path: '/get-configs',
+    handler: 'controller.configs',
+    config: {
+        policies: [],
+    },
+},
 ];

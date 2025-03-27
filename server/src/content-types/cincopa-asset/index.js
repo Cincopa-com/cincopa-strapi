@@ -19,11 +19,16 @@ export default {
     draftAndPublish: false,
   },
   attributes: {
+    asset_rid: {
+      label: "Asset RID",
+      type: 'string',
+      required: true,
+      configurable: false,
+    },
     title: {
       label: "Asset Title",
       type: 'string',
       private: false,
-      required: true,
       maxLength: 250,
       configurable: true,
     },
@@ -31,14 +36,38 @@ export default {
       label: "Asset Description",
       type: 'string',
       private: false,
-      required: true,
       maxLength: 400,
       configurable: true,
     },
-    asset_rid: {
-      label: "Asset RID",
+    notes: {
+      label: "Notes",
       type: 'string',
-      required: true,
+      private: false,
+      maxLength: 5000,
+      configurable: true,
+    },
+    related_link_text: {
+      label: "Related Link Text",
+      type: 'string',
+      maxLength: 1000,
+      private: false,
+      configurable: true,
+    },
+    related_link_url: {
+      label: "Related Link URL",
+      type: 'string',
+      private: false,
+      configurable: true,
+    },
+    reference_id: {
+      label: "Reference ID",
+      type: 'string',
+      configurable: true,
+    },
+    uploaded: {
+      label: "uploaded",
+      type: 'date',
+      configurable: true,
     },
   },
 };
