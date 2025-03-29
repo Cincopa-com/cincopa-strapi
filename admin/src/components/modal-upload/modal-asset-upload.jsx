@@ -66,7 +66,6 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs }) => {
   const setMeta = async(rid) =>{
     try {
       const response = await fetch(`https://api.cincopa.com/v2/asset.set_meta.json?api_token=${configs.apiToken}&rid=${rid}&reference_id=strapi`);
-      debugger;
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
