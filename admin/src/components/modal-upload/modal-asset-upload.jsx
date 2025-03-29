@@ -62,8 +62,7 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs }) => {
       }
 
       const result = await response.json();
-      debugger
-      setUploadUrl();
+      setUploadUrl(result?.upload_url);
     } catch (err) {
       // setError(err.message);
     }
