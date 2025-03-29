@@ -23,13 +23,7 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs }) => {
           height: 'auto',
           onUploadComplete: function (data) {
             if (data.uploadState === 'Complete') {
-              if (data.rid) {
-
-                // setUploadData({
-                //   rid: data.rid,
-                //   thumbnail: `https://rtcdn.cincopa.com/thumb.aspx?size=large&rid=${data.rid}`,
-                // });
-              }
+              data?.rid && setMeta(data?.rid);
             }
           },
         });
@@ -63,6 +57,22 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs }) => {
 
       const result = await response.json();
       setUploadUrl(result?.upload_url);
+    } catch (err) {
+      // setError(err.message);
+    }
+  }
+
+
+  const setMeta = async(rid) =>{
+    try {
+      const response = await fetch(`https://api.cincopa.com/v2/asset.set_meta.json?api_token=${configs.apiToken}&rid=${rid}&reference_id=strapi`);
+      debugger;
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+
+      const result = await response.json();
+      console.log(result);
     } catch (err) {
       // setError(err.message);
     }
