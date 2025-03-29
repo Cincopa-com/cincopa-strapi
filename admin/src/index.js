@@ -60,9 +60,6 @@ export default {
     script.onload = () => {
       // console.log(cpUploadUI, 'cpUploadUI');
     }
-    console.log(app)
-    const pluginConfig = app.getPlugin('cincopa-uploader-plugin')?.config;
-    console.log('Plugin token from backend:', pluginConfig);
   },
 
   async registerTrads({ locales }) {

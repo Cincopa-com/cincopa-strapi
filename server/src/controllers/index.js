@@ -1,7 +1,9 @@
 import controller from './controller';
-import cincopaSettings from './cincopa-settings';
+import pluginConfigs from './plugin-configs';
+import webhook from './webhook';
 
 export default {
   controller,
-  cincopaSettings,
+  pluginConfigs,
+  webhook,
 };

@@ -1,15 +1,15 @@
 import contentAPIRoutes from './content-api';
-// import adminRoutes from './admin';
+import webhookRoutes from './webhook';
 
 const routes = {
   'content-api': {
     type: 'content-api',
     routes: contentAPIRoutes,
   },
-  // admin: {
-  //   type: 'admin',
-  //   routes: adminRoutes,
-  // },
+  'cincopa-uploader-plugin': {
+    type: 'content-api',  // The type should be 'plugin' for plugins
+    routes: webhookRoutes,  // Add the webhook route to the plugin section
+  },
 };
 
 export default routes;

@@ -5,7 +5,7 @@ import { Button } from '@strapi/design-system';
 import { getTranslation } from '../../utils/getTranslation';
 import ModalNewUpload from '../modal-upload/modal-asset-upload';
 
-const Header = () => {
+const Header = ({configs}) => {
   const { formatMessage } = useIntl();
   const [isNewUploadOpen, setIsNewUploadOpen] = React.useState(false); // State to control modal visibility
 
@@ -34,7 +34,7 @@ const Header = () => {
           </Button>
         }
       />
-      <ModalNewUpload isOpen={isNewUploadOpen} onToggle={handleOnNewUploadClose}/>
+      <ModalNewUpload configs={configs} isOpen={isNewUploadOpen} onToggle={handleOnNewUploadClose}/>
     </>
   );
 };

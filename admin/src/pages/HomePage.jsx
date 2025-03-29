@@ -5,19 +5,17 @@ import { Flex, Grid, Box, SingleSelect, Searchbar, SingleSelectOption, Button } 
 import Header from '../components/header/index';
 import AssetsList from '../components/assets-list/index';
 import { appendQueryParameter } from '../utils/url';
-// const config = strapi.config.get('plugin.cincopa-uploader-plugin');
-// const token = config.apiToken;
-// import { Config } from '../../../admin/src/index';
 import { useFetchClient } from '@strapi/strapi/admin';
+
 const HomePage = () => {
   const client = useFetchClient();
+  const location = useLocation();
+  const navigate = useNavigate();
   const searchFields = [
     { label: 'By Title', value: 'by_title' },
     { label: 'By Asset Id', value: 'by_asset_id' },
     { label: 'By Asset Tag', value: 'by_asset_tag' },
   ];
-  const location = useLocation();
-  const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
@@ -25,20 +23,18 @@ const HomePage = () => {
   const [searchFieldDefault, setSearchFieldDefault] = useState(searchFields[0].value);
   const [searchValue, setSearchValue] = useState('');
   const [filterTimer, setFilterTimer] = useState(null);
+  const [configs, setConfigs] = useState(null);
   const [isUpdate, handleUpdateData] = useState(false);
-  useEffect(() => {
 
-    client
-            .get(`/cincopa-uploader-plugin/get-configs`)
-            .then((response) => {
-              console.log(2222)
-                // setConfigs(response.data);
-            })
-            .catch((error) => {
-                console.error('Error fetching configs:', error);
-            });
-    fetchData();
-  }, [client]);
+  useEffect(() => {
+    getConfigs();
+  }, []);
+
+  useEffect(() => {
+    if (configs && configs.apiToken) {
+      fetchData();
+    }
+  }, [configs]);
 
   useEffect(() => {
     if (searchFieldDefault && searchValue != '') {
@@ -49,15 +45,23 @@ const HomePage = () => {
     if (filterTimer) {
       clearTimeout(filterTimer);
     }
-    // else if(isUpdate){
-    //   setPage(1);
-    //   fetchData();
-    // }
+
   }, [searchFieldDefault, searchValue]);
+
+  const getConfigs = async() => {
+    await client
+    .get('/api/cincopa-uploader-plugin/get-configs')
+    .then((response) => {
+        setConfigs(response?.data);
+    })
+    .catch((error) => {
+        console.error('Error fetching configs:', error);
+    });
+  };
 
   const fetchData = async () => {
     try {
-      const response = await fetch('https://api.cincopa.com/v2/asset.list.json?api_token=230692iojeswdxdgkmnxklh25rivovgmpc&items_per_page=50&page=' + page);
+      const response = await fetch(`https://api.cincopa.com/v2/asset.list.json?api_token=${configs.apiToken}&items_per_page=50&page=${page}`);
 
       if (!response.ok) {
         throw new Error('Failed to fetch data');
@@ -88,7 +92,7 @@ const HomePage = () => {
     if (!searchValue) return;
 
     const newFilterTimer = setTimeout(async () => {
-      let url = 'https://api.cincopa.com/v2/asset.list.json?api_token=230692iojeswdxdgkmnxklh25rivovgmpc';
+      let url = `https://api.cincopa.com/v2/asset.list.json?api_token=${configs.apiToken}`;
       if(searchFieldDefault == 'by_asset_id') {
         url += `&rid=${searchValue}`;
       }else if(searchFieldDefault == 'by_title') {
@@ -136,7 +140,7 @@ const HomePage = () => {
   return (
     <Layouts.Root>
       <Page.Main>
-      <Header />
+      <Header configs={configs} />
       <Layouts.Action
         startActions={
         <Grid.Root gap={4}>

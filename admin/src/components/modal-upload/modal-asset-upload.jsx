@@ -3,35 +3,32 @@ import { useIntl } from 'react-intl';
 import { Box, Button, Modal } from '@strapi/design-system';
 import { getTranslation } from '../../utils/getTranslation';
 
-const ModalNewUpload = ({ isOpen, onToggle = () => {} }) => {
+const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs }) => {
   const { formatMessage } = useIntl();
   const uploaderRef = useRef(null);
   const [uploadData, setUploadData] = useState(null);
+  const [uploadUrl, setUploadUrl] = useState(null);
+
+  useEffect(() => {
+    getUploadUrl();
+  }, [isOpen]);
 
   useEffect(() => {
     const initializeUploader = () => {
       if (isOpen && uploaderRef.current) {
         const uploadUI = new cpUploadUI(uploaderRef.current, {
-          upload_url: 'https://mediaupload.cincopa.com/post.jpg?uid=230692&d=AAAAcAAJFOAAAAAAAAtAURG&hash=dpuo31hhzdqphu5desjwoc22pl4mszno&addtofid=0',
+          upload_url: uploadUrl,
           multiple: false,
-          btnText: formatMessage({
-            id: getTranslation('ModalNewUpload.choose-file-btn'),
-            defaultMessage: 'Choose file to upload',
-          }),
-          dragAndDropText: formatMessage({
-            id: getTranslation('ModalNewUpload.drag-drop-text'),
-            defaultMessage: 'Drag & Drop',
-          }),
           width: 'auto',
           height: 'auto',
           onUploadComplete: function (data) {
             if (data.uploadState === 'Complete') {
               if (data.rid) {
 
-                setUploadData({
-                  rid: data.rid,
-                  thumbnail: `https://rtcdn.cincopa.com/thumb.aspx?size=large&rid=${data.rid}`,
-                });
+                // setUploadData({
+                //   rid: data.rid,
+                //   thumbnail: `https://rtcdn.cincopa.com/thumb.aspx?size=large&rid=${data.rid}`,
+                // });
               }
             }
           },
@@ -54,7 +51,23 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {} }) => {
       return () => clearInterval(interval);
     }
 
-  }, [isOpen, formatMessage, onToggle]);
+  }, [uploadUrl]);
+
+  const getUploadUrl = async() => {
+    try {
+      const response = await fetch(`https://api.cincopa.com/v2/asset.get_upload_url.json?api_token=${configs.apiToken}`);
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+
+      const result = await response.json();
+      debugger
+      setUploadUrl();
+    } catch (err) {
+      // setError(err.message);
+    }
+  }
 
   return (
     <form>

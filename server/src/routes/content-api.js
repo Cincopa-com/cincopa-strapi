@@ -11,9 +11,10 @@ export default [
   {
     method: 'GET',
     path: '/get-configs',
-    handler: 'controller.configs',
+    handler: 'pluginConfigs.configs',
     config: {
+        auth: false,
         policies: [],
     },
-},
+}
 ];
