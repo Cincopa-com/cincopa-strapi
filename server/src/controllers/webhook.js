@@ -1,4 +1,6 @@
 import { parse, format } from 'date-fns';
+import { PLUGIN_NAME, SINGULAR_NAME } from '../constants';
+const ENTRY_NAME = `plugin::${PLUGIN_NAME}.${SINGULAR_NAME}`;
 
 export default {
   async handleWebhook(ctx) {
@@ -34,7 +36,7 @@ async function handleAssetUpdated(ctx, data) {
 
   // Check if the asset already exists
   const existingAsset = await strapi.db
-    .query('plugin::cincopa-uploader-plugin.cincopa-asset')
+    .query(ENTRY_NAME)
     .findOne({
       where: { asset_rid: assetRid },
     });
@@ -44,7 +46,7 @@ async function handleAssetUpdated(ctx, data) {
     const newAssetData = extractAssetData(data);
 
     const result = await strapi.entityService.update(
-      'plugin::cincopa-uploader-plugin.cincopa-asset',
+      ENTRY_NAME,
       existingAsset.id,
       { data: newAssetData }
     );
@@ -56,7 +58,7 @@ async function handleAssetUpdated(ctx, data) {
     const newAssetData = extractAssetData(data);
 
     const newItem = await strapi.entityService.create(
-      'plugin::cincopa-uploader-plugin.cincopa-asset',
+      ENTRY_NAME,
       { data: newAssetData }
     );
 
@@ -75,7 +77,7 @@ async function handleAssetDeleted(ctx, data) {
   }
 
   const existingAsset = await strapi.db
-    .query('plugin::cincopa-uploader-plugin.cincopa-asset')
+    .query(ENTRY_NAME)
     .findOne({
       where: { asset_rid: assetRid },
     });
@@ -86,7 +88,7 @@ async function handleAssetDeleted(ctx, data) {
 
   // Delete the asset by ID
   await strapi.entityService.delete(
-    'plugin::cincopa-uploader-plugin.cincopa-asset',
+    ENTRY_NAME,
     existingAsset.id
   );
 
@@ -94,7 +96,7 @@ async function handleAssetDeleted(ctx, data) {
 }
 
 // Handles field extraction and uploaded date parsing based on schema
-function extractAssetData(data, contentTypeUID = 'plugin::cincopa-uploader-plugin.cincopa-asset') {
+function extractAssetData(data, contentTypeUID = ENTRY_NAME) {
   let uploadedDate = '';
 
   const schema = strapi.contentTypes[contentTypeUID];
