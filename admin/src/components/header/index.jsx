@@ -1,40 +1,28 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
 import { Layouts } from '@strapi/strapi/admin';
 import { Button } from '@strapi/design-system';
-import { getTranslation } from '../../utils/getTranslation';
 import ModalNewUpload from '../modal-upload/modal-asset-upload';
 
-const Header = ({configs}) => {
-  const { formatMessage } = useIntl();
-  const [isNewUploadOpen, setIsNewUploadOpen] = React.useState(false); // State to control modal visibility
+const Header = ({configs, onUpdated}) => {
+  const [isNewUploadOpen, setIsNewUploadOpen] = React.useState(false);
 
   const handleUploadAsset = () => {
-    setIsNewUploadOpen(true); // Set modal state to true when button is clicked
+    setIsNewUploadOpen(true);
   };
 
   const handleOnNewUploadClose = () => {
     setIsNewUploadOpen(false);
-
   };
 
   return (
     <>
       <Layouts.Header
-        title={formatMessage({
-          id: getTranslation('HomePage.section-label'),
-          defaultMessage: 'Cincopa Assets Uploader',
-        })}
+        title="Cincopa Assets Uploader"
         primaryAction={
-          <Button onClick={handleUploadAsset}>
-            {formatMessage({
-              id: getTranslation('HomePage.new-upload-button'),
-              defaultMessage: 'Upload new asset',
-            })}
-          </Button>
+          <Button onClick={handleUploadAsset}>Upload new asset</Button>
         }
       />
-      <ModalNewUpload configs={configs} isOpen={isNewUploadOpen} onToggle={handleOnNewUploadClose}/>
+      <ModalNewUpload configs={configs} isOpen={isNewUploadOpen} onToggle={handleOnNewUploadClose} onUpdated={onUpdated}/>
     </>
   );
 };

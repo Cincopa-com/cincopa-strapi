@@ -1,22 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useIntl } from 'react-intl';
 import { Box, Button, Modal } from '@strapi/design-system';
-import { getTranslation } from '../../utils/getTranslation';
+import { apiGetUploadUrl, apiAssetSetMeta } from '../../constants/index';
 
-const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs }) => {
-  const { formatMessage } = useIntl();
+const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs, onUpdated }) => {
   const uploaderRef = useRef(null);
-  const [uploadData, setUploadData] = useState(null);
   const [uploadUrl, setUploadUrl] = useState(null);
 
   useEffect(() => {
-    getUploadUrl();
+    if(isOpen){
+      getUploadUrl();
+    }
   }, [isOpen]);
 
   useEffect(() => {
+    let uploadUI;
     const initializeUploader = () => {
-      if (isOpen && uploaderRef.current) {
-        const uploadUI = new cpUploadUI(uploaderRef.current, {
+      if (isOpen && uploaderRef.current && uploadUrl) {
+        uploadUI = new cpUploadUI(uploaderRef.current, {
           upload_url: uploadUrl,
           multiple: false,
           width: 'auto',
@@ -24,6 +24,8 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs }) => {
           onUploadComplete: function (data) {
             if (data.uploadState === 'Complete') {
               data?.rid && setMeta(data?.rid);
+              onUpdated();
+              onToggle();
             }
           },
         });
@@ -33,6 +35,7 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs }) => {
     };
 
     if (isOpen && uploaderRef.current) {
+      uploadUI = null;
       initializeUploader();
     } else {
 
@@ -45,11 +48,11 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs }) => {
       return () => clearInterval(interval);
     }
 
-  }, [uploadUrl]);
+  }, [isOpen, uploadUrl]);
 
   const getUploadUrl = async() => {
     try {
-      const response = await fetch(`https://api.cincopa.com/v2/asset.get_upload_url.json?api_token=${configs.apiToken}`);
+      const response = await fetch(`${apiGetUploadUrl}?api_token=${configs.apiToken}`);
 
       if (!response.ok) {
         throw new Error('Failed to fetch data');
@@ -58,22 +61,21 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs }) => {
       const result = await response.json();
       setUploadUrl(result?.upload_url);
     } catch (err) {
-      // setError(err.message);
+      console.log(err, 'Error: Get Upload Url');
     }
   }
 
 
   const setMeta = async(rid) =>{
     try {
-      const response = await fetch(`https://api.cincopa.com/v2/asset.set_meta.json?api_token=${configs.apiToken}&rid=${rid}&reference_id=strapi`);
+      const response = await fetch(`${apiAssetSetMeta}?api_token=${configs.apiToken}&rid=${rid}&reference_id=strapi`);
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
 
       const result = await response.json();
-      console.log(result);
     } catch (err) {
-      // setError(err.message);
+      console.log(err, 'Error: Asset Set Meta Data');
     }
   }
 
@@ -82,28 +84,13 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs }) => {
       <Modal.Root open={isOpen} onOpenChange={onToggle}>
         <Modal.Content>
           <Modal.Header>
-            <Modal.Title>
-              {formatMessage({
-                id: getTranslation('ModalNewUpload.header'),
-                defaultMessage: 'Upload new asset or select from list',
-              })}
-            </Modal.Title>
+            <Modal.Title>Upload new asset or select from list</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Box ref={uploaderRef}></Box> {/* This is where the uploader will be rendered */}
-            {/* {uploadData && uploadData.thumbnail && (
-              <div>
-                <img src={uploadData.thumbnail} alt="Uploaded Thumbnail" />
-              </div>
-            )} */}
+            <Box ref={uploaderRef}></Box>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={onToggle} variant="tertiary">
-              {formatMessage({
-                id: getTranslation('Common.cancel-button'),
-                defaultMessage: 'Cancel',
-              })}
-            </Button>
+            <Button onClick={onToggle} variant="tertiary">Cancel</Button>
           </Modal.Footer>
         </Modal.Content>
       </Modal.Root>

@@ -8,15 +8,12 @@ import {
   CardTitle,
   CardSubtitle,
 } from '@strapi/design-system';
-// import ModalAssetInfo from '../assets-list/modal-info.jsx';
 
 const AssetItem = ({ asset }) => {
-  // const [isAssetInfoOpen, setIsNewUploadOpen] = React.useState(false);
   const assetDate = new Date(asset?.uploaded);
   const formattedDate = assetDate.toLocaleString();
 
   const handleAssetClick = (rid) => {
-    // setIsNewUploadOpen(true);
     let editor = {
       load_modules: [
         {
@@ -59,10 +56,6 @@ const AssetItem = ({ asset }) => {
     cincopa?.loadEditor(editor);
   };
 
-  // const handleOnNewUploadClose = () => {
-  //   setIsNewUploadOpen(false);
-  // }
-
   return (
     <>
       <div onClick={() => handleAssetClick(asset.rid)}>
@@ -78,7 +71,6 @@ const AssetItem = ({ asset }) => {
           </CardBody>
         </Card>
       </div>
-      {/* <ModalAssetInfo isOpen={isAssetInfoOpen} asset={asset} onToggle={handleOnNewUploadClose} /> */}
     </>
   );
 };

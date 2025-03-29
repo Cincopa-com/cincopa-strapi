@@ -28,21 +28,18 @@ export default {
     title: {
       label: "Asset Title",
       type: 'string',
-      private: false,
       maxLength: 250,
       configurable: true,
     },
     description: {
       label: "Asset Description",
-      type: 'string',
-      private: false,
+      type: 'text',
       maxLength: 400,
       configurable: true,
     },
     notes: {
       label: "Notes",
-      type: 'string',
-      private: false,
+      type: 'text',
       maxLength: 5000,
       configurable: true,
     },
@@ -50,13 +47,11 @@ export default {
       label: "Related Link Text",
       type: 'string',
       maxLength: 1000,
-      private: false,
       configurable: true,
     },
     related_link_url: {
       label: "Related Link URL",
       type: 'string',
-      private: false,
       configurable: true,
     },
     reference_id: {

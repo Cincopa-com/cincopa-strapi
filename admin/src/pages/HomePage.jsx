@@ -6,6 +6,7 @@ import Header from '../components/header/index';
 import AssetsList from '../components/assets-list/index';
 import { appendQueryParameter } from '../utils/url';
 import { useFetchClient } from '@strapi/strapi/admin';
+import { apiAssetList } from '../constants/index';
 
 const HomePage = () => {
   const client = useFetchClient();
@@ -24,7 +25,7 @@ const HomePage = () => {
   const [searchValue, setSearchValue] = useState('');
   const [filterTimer, setFilterTimer] = useState(null);
   const [configs, setConfigs] = useState(null);
-  const [isUpdate, handleUpdateData] = useState(false);
+  const [isMoreAssets, handleMoreAssets] = useState(false);
 
   useEffect(() => {
     getConfigs();
@@ -59,27 +60,38 @@ const HomePage = () => {
     });
   };
 
-  const fetchData = async () => {
+  const fetchData = async (firstPage) => {
     try {
-      const response = await fetch(`https://api.cincopa.com/v2/asset.list.json?api_token=${configs.apiToken}&items_per_page=50&page=${page}`);
+      const currentPage = firstPage ? firstPage : page;
+      const response = await fetch(`${apiAssetList}?api_token=${configs.apiToken}&items_per_page=50&page=${currentPage}`);
 
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
 
       const result = await response.json();
-      setData((prevData) => {
-        return prevData
-          ? { ...result, items: [...prevData.items, ...result.items] }
-          : result;
-      });
+
+      if(result?.items_data.page < result?.items_data.pages_count){
+        handleMoreAssets(true);
+      }else{
+        handleMoreAssets(false);
+      }
+
+      if(firstPage){
+        setData(result);
+        setSearchValue('');
+      }else{
+        setData((prevData) => {
+          return prevData
+            ? { ...result, items: [...prevData.items, ...result.items] }
+            : result;
+        });
+      }
 
       setPage(prevPage => prevPage + 1);
       setPages(result?.items_data.pages_count);
       handleLoading(false);
-      handleUpdateData(true);
     } catch (err) {
-      // setError(err.message);
       setData({});
       handleLoading(false);
     }
@@ -92,7 +104,7 @@ const HomePage = () => {
     if (!searchValue) return;
 
     const newFilterTimer = setTimeout(async () => {
-      let url = `https://api.cincopa.com/v2/asset.list.json?api_token=${configs.apiToken}`;
+      let url = `${apiAssetList}?api_token=${configs.apiToken}`;
       if(searchFieldDefault == 'by_asset_id') {
         url += `&rid=${searchValue}`;
       }else if(searchFieldDefault == 'by_title') {
@@ -113,6 +125,7 @@ const HomePage = () => {
         const filteredResult = await response.json();
         setData(filteredResult);
         handleLoading(false);
+        handleMoreAssets(false);
       } catch (err) {
         console.log(err, 'error');
         handleLoading(false);
@@ -137,10 +150,21 @@ const HomePage = () => {
     handleLoading(true);
     fetchData();
   }
+
+  const handleUpdated = () => {
+    if(!searchValue){
+      fetchData(1);
+    }
+  };
+
+  const handleClearSearch = () => {
+    fetchData(1);
+  }
+
   return (
     <Layouts.Root>
       <Page.Main>
-      <Header configs={configs} />
+      <Header configs={configs} onUpdated={handleUpdated} />
       <Layouts.Action
         startActions={
         <Grid.Root gap={4}>
@@ -161,7 +185,7 @@ const HomePage = () => {
             <Box width="100%">
                 <Searchbar
                   name="searchbar"
-                  onClear={() => setSearchValue('')}
+                  onClear={handleClearSearch}
                   clearLabel="Clear search"
                   value={searchValue}
                   onChange={handleOnSearchValueChange}
@@ -173,11 +197,9 @@ const HomePage = () => {
       />
       <Layouts.Content>
         <AssetsList userAssets={data?.items} isLoading={isLoading} />
-        {!isLoading && data?.items?.length == 0 && (
+        {!isLoading && isMoreAssets && (
           <Flex justifyContent="center">
-            <Button onClick={loadMoreAssets}>
-              Load More
-            </Button>
+            <Button onClick={loadMoreAssets}>Load More</Button>
           </Flex>
         )}
       </Layouts.Content>

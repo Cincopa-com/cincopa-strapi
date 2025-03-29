@@ -1,4 +1,3 @@
-// import { getTranslation } from './utils/getTranslation';
 import { PLUGIN_ID } from './pluginId';
 import { Initializer } from './components/Initializer';
 import { PluginIcon } from './components/PluginIcon';
@@ -18,28 +17,6 @@ export default {
         return App;
       },
     });
-
-    app.createSettingSection(
-      {
-        id: 'cincopa-uploader',
-        intlLabel: {
-          id: 'cincopa-uploader-plugin.settings.label',
-          defaultMessage: 'Cincopa Uploader',
-        },
-      },
-      [
-        {
-          id: 'cincopa-uploader-settings',
-          intlLabel: {
-            id: 'cincopa-uploader-plugin.settings.page.label',
-            defaultMessage: 'Configuration',
-          },
-          to: '/settings/cincopa-uploader',
-          Component: async () => import('../src/pages/CincopaSettings'),
-        },
-      ]
-    );
-
 
     app.registerPlugin({
       id: PLUGIN_ID,
