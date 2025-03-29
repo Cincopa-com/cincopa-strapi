@@ -409,7 +409,7 @@ var require_server = __commonJS({
           maxLength: 250,
           configurable: true
         },
-        descriptoion: {
+        description: {
           label: "Asset Description",
           type: "string",
           private: false,

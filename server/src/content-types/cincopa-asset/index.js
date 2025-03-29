@@ -32,7 +32,7 @@ export default {
       maxLength: 250,
       configurable: true,
     },
-    descriptoion: {
+    description: {
       label: "Asset Description",
       type: 'string',
       private: false,

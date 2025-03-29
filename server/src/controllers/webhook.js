@@ -169,7 +169,7 @@ function extractAssetData(data, contentTypeUID = ENTRY_NAME) {
   return {
     asset_rid: data.drid || '',
     title: data.caption || data.filename || '',
-    descriptoion: data.description || '',
+    description: data.description || '',
     notes: data.long_description || '',
     related_link_text: data.related_link_text || '',
     related_link_url: data.related_link_url || '',
