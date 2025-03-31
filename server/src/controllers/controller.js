@@ -1,7 +1,7 @@
 const controller = ({ strapi }) => ({
   index(ctx) {
     ctx.body = strapi
-      .plugin('strapi-plugin-cincopa-uploader')
+      .plugin('cincopa-uploader')
       // the name of the service file & the method.
       .service('service')
       .getWelcomeMessage();

@@ -1,1 +1,1 @@
-export const PLUGIN_ID = 'strapi-plugin-cincopa-uploader';
+export const PLUGIN_ID = 'cincopa-uploader';

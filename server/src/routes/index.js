@@ -6,7 +6,7 @@ const routes = {
     type: 'content-api',
     routes: contentAPIRoutes,
   },
-  'strapi-plugin-cincopa-uploader': {
+  'cincopa-uploader': {
     type: 'content-api',  // The type should be 'plugin' for plugins
     routes: webhookRoutes,  // Add the webhook route to the plugin section
   },

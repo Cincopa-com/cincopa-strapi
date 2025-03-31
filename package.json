@@ -1,5 +1,5 @@
 {
-  "version": "0.0.4",
+  "version": "0.0.5",
   "keywords": [],
   "type": "commonjs",
   "exports": {
@@ -34,6 +34,7 @@
     "react-intl": "^7.1.6"
   },
   "devDependencies": {
+    "@strapi/strapi": "^5.0.0",
     "prettier": "^3.5.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -49,12 +50,16 @@
   },
   "strapi": {
     "kind": "plugin",
-    "name": "strapi-plugin-cincopa-uploader",
-    "displayName": "",
-    "description": ""
+    "name": "cincopa-uploader",
+    "displayName": "Cincopa Uploader",
+    "description": "Uploade assets to cincopa and use in Strapi"
   },
   "name": "strapi-plugin-cincopa-uploader",
   "description": "",
   "license": "MIT",
-  "author": "Davit Harut <davit@cincopa.com>"
+  "author": {
+    "name": "Cincopa",
+    "email": "support@cincopa.com",
+    "url": "https://github.com/cincopa-com"
+  }
 }
