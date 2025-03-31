@@ -1,5 +1,5 @@
 {
-  "version": "0.0.3",
+  "version": "0.0.4",
   "keywords": [],
   "type": "commonjs",
   "exports": {
@@ -49,11 +49,11 @@
   },
   "strapi": {
     "kind": "plugin",
-    "name": "cincopa-uploader-plugin",
+    "name": "strapi-plugin-cincopa-uploader",
     "displayName": "",
     "description": ""
   },
-  "name": "cincopa-uploader-plugin",
+  "name": "strapi-plugin-cincopa-uploader",
   "description": "",
   "license": "MIT",
   "author": "Davit Harut <davit@cincopa.com>"
