@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Grid, Typography, Flex } from '@strapi/design-system';
 import AssetItem from '../assets-list/asset-item.jsx';
 
-const AssetsList = ({ userAssets, isLoading }) => {
+const AssetsList = ({ userAssets, isLoading, configs }) => {
   if(isLoading){
     return;
   }
@@ -18,7 +18,7 @@ const AssetsList = ({ userAssets, isLoading }) => {
   const assets = userAssets?.map((asset) => (
     <Grid.Item col={3} m={4} xs={12} s={6} key={asset.rid}>
       <Box width="100%">
-        <AssetItem asset={asset} />
+        <AssetItem configs={configs} asset={asset} />
       </Box>
     </Grid.Item>
   ));

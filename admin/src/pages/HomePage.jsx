@@ -196,7 +196,7 @@ const HomePage = () => {
         }
       />
       <Layouts.Content>
-        <AssetsList userAssets={data?.items} isLoading={isLoading} />
+        <AssetsList configs={configs}  userAssets={data?.items} isLoading={isLoading} />
         {!isLoading && isMoreAssets && (
           <Flex justifyContent="center">
             <Button onClick={loadMoreAssets}>Load More</Button>

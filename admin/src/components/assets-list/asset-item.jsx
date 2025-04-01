@@ -9,7 +9,7 @@ import {
   CardSubtitle,
 } from '@strapi/design-system';
 
-const AssetItem = ({ asset }) => {
+const AssetItem = ({ asset, configs }) => {
   const assetDate = new Date(asset?.uploaded);
   const formattedDate = assetDate.toLocaleString();
 
@@ -47,7 +47,7 @@ const AssetItem = ({ asset }) => {
             order: 4
         },
       ],
-      token: '230692iojeswdxdgkmnxklh25rivovgmpc',
+      token: configs.apiToken,
       rid,
       editorV2: true,
       change_tabs: true,
