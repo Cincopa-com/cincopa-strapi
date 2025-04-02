@@ -14,6 +14,9 @@ export default {
     'content-type-builder': {
       visible: true,
     },
+    "content-api": {
+      "enabled": true
+    }
   },
   options: {
     draftAndPublish: false,
