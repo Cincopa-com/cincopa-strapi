@@ -1,5 +1,3 @@
-import { PLUGIN_NAME } from "./constants";
-
 const bootstrap = async ({ strapi }) => {
   // 1. CSP Middleware (only on plugin routes)
   const cspMiddleware = async (ctx, next) => {
@@ -21,38 +19,6 @@ const bootstrap = async ({ strapi }) => {
   };
 
   strapi.server.use(cspMiddleware);
-
-  // 2. Register permission actions (find / findOne) without enabling
-  const permissionsToRegister = [
-    {
-      section: 'plugins',
-      displayName: 'Find',
-      uid: 'find',
-      pluginName: PLUGIN_NAME,
-    },
-    {
-      section: 'plugins',
-      displayName: 'Find One',
-      uid: 'findOne',
-      pluginName: PLUGIN_NAME,
-    },
-  ];
-
-  const actionService = strapi
-    .plugin('users-permissions')
-    .service('action');
-
-  for (const permission of permissionsToRegister) {
-    const exists = await actionService.get({
-      plugin: permission.pluginName,
-      uid: permission.uid,
-    });
-
-    if (!exists) {
-      await actionService.create(permission);
-      strapi.log.info(`[cincopa-uploader] Registered permission: ${permission.uid}`);
-    }
-  }
 };
 
 export default bootstrap;
