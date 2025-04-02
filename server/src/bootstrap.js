@@ -1,9 +1,8 @@
 const bootstrap = async ({ strapi }) => {
-  // Custom middleware for Admin plugin route only
-  strapi.server.routes.use(async (ctx, next) => {
+  strapi.server.use(async (ctx, next) => {
     await next();
 
-    // Apply CSP only to the HTML-rendered Admin page for your plugin
+    // Only apply CSP on your plugin's admin page
     if (
       ctx.request.url.startsWith('/admin/plugins/cincopa-uploader') &&
       ctx.response.is('html')
