@@ -1,4 +1,4 @@
-import Logo from './logo';
+import Logo from './logo/index';
 
 const PluginIcon = () => <Logo />;
 

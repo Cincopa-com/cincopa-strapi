@@ -19,7 +19,7 @@ export default {
     }
   },
   options: {
-    draftAndPublish: false,
+    draftAndPublish: true
   },
   attributes: {
     asset_rid: {

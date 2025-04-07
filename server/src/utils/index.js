@@ -1,4 +1,4 @@
-import { PLUGIN_NAME } from '../constants/index';
+import { PLUGIN_NAME } from '../constants/';
 import * as Config from './config.js';
 
 const getService = (name) => {
