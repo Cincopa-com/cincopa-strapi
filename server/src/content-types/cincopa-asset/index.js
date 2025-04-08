@@ -16,10 +16,13 @@ export default {
     },
     "content-api": {
       "enabled": true
+    },
+    "users-permissions": {
+      "configurable": true
     }
   },
   options: {
-    draftAndPublish: true
+    draftAndPublish: false
   },
   attributes: {
     asset_rid: {

@@ -7,5 +7,5 @@ export default {
   controller,
   pluginConfigs,
   cincopaAsset,
-  webhook,
+  webhook
 };

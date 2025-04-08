@@ -51,7 +51,7 @@ const HomePage = () => {
 
   const getConfigs = async() => {
     await client
-    .get('/api/cincopa-uploader/get-configs')
+    .get('/admin/plugins/cincopa-uploader/config')
     .then((response) => {
         setConfigs(response?.data);
     })

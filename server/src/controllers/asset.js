@@ -29,7 +29,7 @@ const cincopaAsset = ({ strapi }) => ({
     return strapi.db.query(ENTRY_NAME).count(params);
   },
   async find (ctx){
-    console.log('TEESET111');
+    strapi.log.info(`FIIIIIND}`);
     const entities = await this.search(ctx);
     const totalCount =await this.count(ctx);
     const items = entities.map((entity) => entity);

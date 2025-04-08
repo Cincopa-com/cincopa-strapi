@@ -1,7 +1,9 @@
-import { PLUGIN_NAME } from '../../server/src/constants/index';
+import { PLUGIN_NAME,SINGULAR_NAME } from '../../server/src/constants/index';
 import { Initializer } from './components/Initializer';
 import { PluginIcon } from './components/PluginIcon';
 import { apiAssetDelete } from '../src/constants/index';
+import pluginPermissions from './permissions';
+
 export default {
   register(app) {
     app.addMenuLink({
@@ -11,6 +13,7 @@ export default {
         id: `${PLUGIN_NAME}.plugin.name`,
         defaultMessage: 'Cincopa Assets Uploader',
       },
+      permissions: [pluginPermissions.mainRead],
       Component: async () => {
         const { App } = await import('./pages/App');
         return App;
@@ -40,7 +43,7 @@ export default {
     app.getPlugin('content-manager').apis.addDocumentAction([
       ({ collectionType, document, model }) => {
 
-        if (model !== 'plugin::cincopa-uploader.cincopa-asset') return null;
+        if (model !== `plugin::${PLUGIN_NAME}.${SINGULAR_NAME}`) return null;
         return {
           label: 'Delete from Cincopa',
           position: 'table-row',
