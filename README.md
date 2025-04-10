@@ -6,7 +6,7 @@
 [![Downloads](https://img.shields.io/npm/dm/strapi-plugin-cincopa-uploader)](https://www.npmjs.com/package/strapi-plugin-cincopa-uploader)
 [![GitHub issues](https://img.shields.io/github/issues/cincopa-com/strapi-plugin-cincopa-uploader)](https://github.com/cincopa-com/cincopa-strapi/issues)
 
-A Strapi plugin for managing asset uploads to **Cincopa** — including both direct file uploads and uploading via URL.
+A Strapi plugin for managing asset uploads to **Cincopa**
 
 ---
 
