@@ -5,7 +5,7 @@ import cincopaAsset from './asset';
 
 export default {
   controller,
-  pluginConfigs,
-  cincopaAsset,
+  'cincopa-settings': pluginConfigs,
+  'cincopa-asset': cincopaAsset,
   webhook
 };

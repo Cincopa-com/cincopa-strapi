@@ -1,11 +1,11 @@
 const routes = [
     {
         method: 'GET',
-        path: '/config',
-        handler: 'pluginConfigs.configs',
+        path: '/cincopa-settings',
+        handler: 'cincopa-settings.configs',
         config: {
-            policies: [],
-            auth:false
+            policies: [], 
+            auth: {enabled:true}
         }
     }
 ];

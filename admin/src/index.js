@@ -26,18 +26,6 @@ export default {
       isReady: false,
       name: PLUGIN_NAME,
     });
-
-    const script = document.createElement("script");
-    script.src = "https://wwwcdn.cincopa.com/_cms/ugc/uploaderui.js";
-    script.async = true;
-    document.body.appendChild(script);
-    const cincopaScript = document.createElement("script");
-    cincopaScript.src = "//wwwcdn.cincopa.com/_cms/media-platform/libasync.js";
-    cincopaScript.async = true;
-    document.body.appendChild(cincopaScript);
-    script.onload = () => {
-      // console.log(cpUploadUI, 'cpUploadUI');
-    }
   },
   bootstrap(app) {
     app.getPlugin('content-manager').apis.addDocumentAction([
@@ -48,9 +36,7 @@ export default {
           label: 'Delete from Cincopa',
           position: 'table-row',
           variant: 'danger',
-          onClick: async () => {
-            console.log('Selected document:', document?.asset_rid);
-          },
+          onClick: async () => {},
           dialog: {
             type: 'dialog',
             title: 'Confirm Delete',

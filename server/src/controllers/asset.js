@@ -1,8 +1,11 @@
 import { PLUGIN_NAME, SINGULAR_NAME } from '../constants';
+import strapi from '@strapi/strapi';
+const { createCoreController } = strapi.factories;
+
 const ENTRY_NAME = `plugin::${PLUGIN_NAME}.${SINGULAR_NAME}`;
 
-const cincopaAsset = ({ strapi }) => ({
-  search(ctx){
+const cincopaAsset = createCoreController(ENTRY_NAME, ({ strapi }) => ({
+  async search(ctx) {
     const params = ctx.query;
 
     if (!params.sort) {
@@ -17,34 +20,35 @@ const cincopaAsset = ({ strapi }) => ({
       params.populate = '*';
     }
 
-
-
-
-    // return strapi.db.query(ENTRY_NAME).findMany(params);
-    return strapi.documents(ENTRY_NAME).findMany(params);
+    return await strapi.entityService.findMany(ENTRY_NAME, params);
   },
-  count(ctx){
+
+  async count(ctx) {
+    const params = ctx.query;
+    return await strapi.db.query(ENTRY_NAME).count(params);
+  },
+
+  async find(ctx) {
     const params = ctx.query;
 
-    return strapi.db.query(ENTRY_NAME).count(params);
-  },
-  async find (ctx){
-    strapi.log.info(`FIIIIIND}`);
-    const entities = await this.search(ctx);
-    const totalCount =await this.count(ctx);
+    if (!params.populate) {
+      params.populate = '*';
+    }
+
+    const entities = await strapi.entityService.findMany(ENTRY_NAME, params);
+    const totalCount = await strapi.db.query(ENTRY_NAME).count(params);
     const items = entities.map((entity) => entity);
-    console.log(ENTRY_NAME,'itemss')
 
     return { items, totalCount };
   },
-  async findOne (ctx){
-    console.log('TEESET222');
+  async findOne(ctx) {
     const { assetrid } = ctx.params;
 
     return await strapi.db.query(ENTRY_NAME).findOne({
-      where: { asset_rid: assetrid }
+      where: { asset_rid: assetrid },
+      populate: '*',
     });
-  }
-});
+  },
+}));
 
 export default cincopaAsset;

@@ -3,17 +3,19 @@ const routes =  [
   {
     method: 'GET',
     path: '/asset',
-    handler: 'cincopaAsset.find',
+    handler: 'cincopa-asset.find',
     config: {
       policies: [],
+      auth: false
     },
   },
   {
     method: 'GET',
     path: `/asset/:assetrid`,
-    handler: 'cincopaAsset.findOne',
+    handler: 'cincopa-asset.findOne',
     config: {
       policies: [],
+      auth: false
     },
   },
 ];

@@ -5,8 +5,6 @@ const ENTRY_NAME = `plugin::${PLUGIN_NAME}.${SINGULAR_NAME}`;
 export default {
   async handleWebhook(ctx) {
     try {
-      console.log("FULL SYNC", strapi.config.get(`plugin.${PLUGIN_NAME}.fullCincopaSync`));
-      console.log("Webhook received:", ctx.request.body);
       ctx.body = { message: "Webhook received successfully2", data: ctx.request };
 
       const body = ctx?.request?.body;

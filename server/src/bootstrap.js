@@ -1,10 +1,10 @@
 import { PLUGIN_NAME } from './constants/index';
 
 const bootstrap = async ({ strapi }) => {
+  // Set CSP for the plugin’s admin page
   strapi.server.use(async (ctx, next) => {
     await next();
 
-    // Only apply CSP on your plugin's admin page
     if (
       ctx.request.url.startsWith(`/admin/plugins/${PLUGIN_NAME}`) &&
       ctx.response.is('html')
@@ -23,12 +23,18 @@ const bootstrap = async ({ strapi }) => {
   });
 
 
+  if (Object.keys(strapi.plugins).indexOf('users-permissions') === -1) {
+    throw new Error('The users-permissions plugin is required in order to use the Mux Video Uploader');
+  }
+
+  // Define custom permission actions for your plugin.
+  // Using uid "find" instead of "read" aligns with Strapi’s default for collection types.
   const actions = [
-    // App
+    // Core API actions
     {
       section: 'plugins',
       displayName: 'Read',
-      uid: 'read',
+      uid: 'read', 
       pluginName: PLUGIN_NAME,
     },
     {
@@ -49,30 +55,29 @@ const bootstrap = async ({ strapi }) => {
       uid: 'delete',
       pluginName: PLUGIN_NAME,
     },
-    // Settings
+    // Settings-related actions
     {
       section: 'plugins',
-      displayName: 'Read',
+      displayName: 'Read Settings',
       subCategory: 'settings',
       uid: 'settings.read',
       pluginName: PLUGIN_NAME,
     },
     {
       section: 'plugins',
-      displayName: 'Update',
+      displayName: 'Update Settings',
       subCategory: 'settings',
       uid: 'settings.update',
       pluginName: PLUGIN_NAME,
     },
   ];
 
-  // Commented out as this was causing issues in clustered instances of Strapi
-  // Issue was due to multiple instances of the plugin stampeding Mux's API
-  // rate limits.  Future work would include a manual invocation from the
-  // plugin's settings page.
-  // sync();
-
-  await strapi.admin.services.permission.actionProvider.registerMany(actions);
+  try {
+    await strapi.admin.services.permission.actionProvider.registerMany(actions);
+    strapi.log.info(`[${PLUGIN_NAME}] Plugin permissions registered`);
+  } catch (error) {
+    strapi.log.error(`[${PLUGIN_NAME}] Error registering permissions:`, error);
+  }
 };
 
 export default bootstrap;

@@ -1,5 +1,3 @@
-import { Config } from '../utils/config';
-
 export default {
   default: {
     apiToken: '',

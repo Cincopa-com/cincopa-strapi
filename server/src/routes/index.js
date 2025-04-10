@@ -1,7 +1,6 @@
 import contentAPIRoutes from './content-api';
 import adminRoutes from './admin';
 import webhookRoutes from './webhook';
-import { PLUGIN_NAME } from '../constants';
 
 const routes = {
   'content-api': {

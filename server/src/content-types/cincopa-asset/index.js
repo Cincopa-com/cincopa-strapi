@@ -1,6 +1,6 @@
 export default {
   kind: 'collectionType',
-  collectionName: 'cincopaAssets',
+  collectionName: 'cincopaassets',
   info: {
     description: 'Cincopa assets collection type',
     displayName: 'Cincopa Asset',
@@ -15,7 +15,7 @@ export default {
       visible: true,
     },
     "content-api": {
-      "enabled": true
+      "enabled": true,
     },
     "users-permissions": {
       "configurable": true

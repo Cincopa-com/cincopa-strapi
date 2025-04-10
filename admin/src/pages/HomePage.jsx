@@ -27,6 +27,38 @@ const HomePage = () => {
   const [configs, setConfigs] = useState(null);
   const [isMoreAssets, handleMoreAssets] = useState(false);
 
+
+  // Function to load a script dynamically
+  const loadScript = (src) => {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.async = true;
+      script.onload = () => resolve();
+      script.onerror = (err) => reject(new Error(`Script load error: ${src}`));
+      document.body.appendChild(script);
+    });
+  };
+
+  
+ useEffect(() => {
+    const loadScripts = async () => {
+      try {
+        // Load the first script
+        await loadScript("https://wwwcdn.cincopa.com/_cms/ugc/uploaderui.js");
+
+        // Load the second script after the first one finishes
+        await loadScript("//wwwcdn.cincopa.com/_cms/media-platform/libasync.js");
+
+      } catch (error) {
+        console.error("Error loading scripts:", error);
+      }
+    };
+
+    loadScripts();
+  }, []); 
+
+
   useEffect(() => {
     getConfigs();
   }, []);
@@ -51,7 +83,7 @@ const HomePage = () => {
 
   const getConfigs = async() => {
     await client
-    .get('/admin/plugins/cincopa-uploader/config')
+    .get('/cincopa-uploader/cincopa-settings')
     .then((response) => {
         setConfigs(response?.data);
     })
@@ -127,7 +159,6 @@ const HomePage = () => {
         handleLoading(false);
         handleMoreAssets(false);
       } catch (err) {
-        console.log(err, 'error');
         handleLoading(false);
         setData({});
       }
