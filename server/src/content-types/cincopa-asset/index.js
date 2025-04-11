@@ -65,6 +65,11 @@ export default {
       type: 'string',
       configurable: true,
     },
+    type: {
+      label: "Type",
+      type: 'string',
+      configurable: false,
+    },
     uploaded: {
       label: "uploaded",
       type: 'date',
