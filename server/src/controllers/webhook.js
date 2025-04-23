@@ -10,7 +10,7 @@ export default {
       const body = ctx?.request?.body;
       const event = body?.event;
 
-      const fullSyncEnabled = strapi.config.get(`plugin.${PLUGIN_NAME}.fullCincopaSync`);
+      const fullSyncEnabled = strapi.config.get(`plugin::${PLUGIN_NAME}.fullCincopaSync`);
 
       /* we will use asset.update when mirroring not enabled to be able handle reference_id=strapi */
       if(fullSyncEnabled && event == 'asset.uploaded'){
