@@ -22,36 +22,65 @@ const AssetItem = ({ asset, configs }) => {
           order: 0
         },
         {
-          name: 'share',
-          title: 'Share Media',
-          order: 1
-        },
-        {
-          name: 'embed-info',
-          title: 'Embed',
-          feature: 'embed-media',
-          order: 2
-        },
-        {
-          name: 'spacer'
-        },
-        {
-          name: 'email',
-          title: 'Emails And Campaigns',
-          feature: 'embed-email',
-          order: 3
-        },
-        {
           name: 'thumbnail',
           title: 'Set Thumbnail',
           order: 4
+        },
+        {
+          name: 'video-trim',
+          title: 'Trimming',
+          order: 5
+        },
+        {
+          name: 'partitioning-speaker',
+          title: 'Auto Transcribe & CC',
+          feature: 'assets-subtitles',
+          order: 7
+        },
+        {
+          name: 'chapters',
+          feature: 'assets-timeline',
+          order: 8
+        },
+        {
+          name: 'annotations',
+          feature: 'assets-timeline',
+          order: 9
+        },
+        {
+          name: 'call-to-action',
+          feature: 'assets-timeline',
+          order: 10
+        },
+        {
+          name: 'replace-asset',
+          order: 11
+        },
+        {
+          name: 'video-renditions',
+          feature: 'video-renditions',
+          title: 'Renditions',
+          order: 12
+        },
+        {
+          name: "video-analytics",
+          order: 14
+        },
+        {
+          name: 'downloads-asset',
+          title: 'Attached Files & Links',
+          order: 15
+        },
+        {
+          title: 'Lead Generation',
+          name: "lead-generation",
+          order: 16
         },
       ],
       token: configs.apiToken,
       rid,
       editorV2: true
     }
-
     cincopa?.loadEditor(editor);
   };
 
@@ -100,7 +129,7 @@ const AssetItem = ({ asset, configs }) => {
       <div onClick={() => handleAssetClick(asset.rid)}>
         <Card>
           <CardHeader>
-            <CardAsset src={getThumbnailUrl(asset)}/>
+            <CardAsset src={getThumbnailUrl(asset)} />
           </CardHeader>
           <CardBody>
             <CardContent>

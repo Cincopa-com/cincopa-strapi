@@ -4,8 +4,19 @@ import { PluginIcon } from './components/PluginIcon';
 import { apiAssetDelete } from '../src/constants/index';
 import pluginPermissions from './permissions';
 
+import { getFetchClient } from '@strapi/strapi/admin';
+
 export default {
   register(app) {
+
+    app.registerPlugin({
+      id: PLUGIN_NAME,
+      initializer: Initializer,
+      isReady: false,
+      name: PLUGIN_NAME,
+    });
+
+
     app.addMenuLink({
       to: `plugins/${PLUGIN_NAME}`,
       icon: PluginIcon,
@@ -15,19 +26,14 @@ export default {
       },
       permissions: [pluginPermissions.mainRead],
       Component: async () => {
-        const { App } = await import('./pages/App');
-        return App;
+         const { App } = await import('./pages/App');
+         return App;
       },
     });
-
-    app.registerPlugin({
-      id: PLUGIN_NAME,
-      initializer: Initializer,
-      isReady: false,
-      name: PLUGIN_NAME,
-    });
+   
   },
   bootstrap(app) {
+    const client = getFetchClient();
     app.getPlugin('content-manager').apis.addDocumentAction([
       ({ collectionType, document, model }) => {
 
@@ -46,8 +52,9 @@ export default {
               if (!assetRid) {
                 return;
               }
+              const { apiToken }  = await getConfigs();
               try {
-                const response = await fetch(`${apiAssetDelete}?api_token=230692iojeswdxdgkmnxklh25rivovgmpc&rid=${assetRid}`);
+                const response = await fetch(`${apiAssetDelete}?api_token=${apiToken}&rid=${assetRid}`);
                 if (!response.ok) {
                   throw new Error('Failed to fetch data');
                 }
@@ -61,6 +68,18 @@ export default {
         };
       },
     ]);
+
+
+    const getConfigs = async () => {
+      try {
+        const { data } = await client.get('/cincopa-uploader/cincopa-settings');
+        return data;
+      } catch (error) {
+        console.error('Error fetching configs:', error);
+        return null;
+      }
+    };
+
   },
   async registerTrads({ locales }) {
     return Promise.all(

@@ -1,6 +1,6 @@
 import { PLUGIN_NAME } from './constants/index';
 const register = ({ strapi }) => {
-    strapi.log.info(`[${PLUGIN_NAME}] REGISTER WEBWHOOKS IN CINCOPA TO GET MOST ADVANTAGE`);
+    strapi.log.info(`[${PLUGIN_NAME}] Configure Cincopa webhooks to enable real-time integration and event-driven workflows.`);
 
     /* set corrrect CSP in registration to fix issue not loading CSP on first time */
     strapi.server.use(async (ctx, next) => {
