@@ -49,8 +49,7 @@ const AssetItem = ({ asset, configs }) => {
       ],
       token: configs.apiToken,
       rid,
-      editorV2: true,
-      change_tabs: true,
+      editorV2: true
     }
 
     cincopa?.loadEditor(editor);

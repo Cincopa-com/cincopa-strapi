@@ -13,7 +13,7 @@ export default {
     try {
       // Try to get a temporary token
       const res = await fetch(
-        `https://api.cincopa.com/v2/token.get_temp.json?api_token=${apiToken}`
+        `https://api.cincopa.com/v2/token.get_temp.json?api_token=${apiToken}&ttl=600`
       );
 
       if (!res.ok) {
@@ -37,15 +37,14 @@ export default {
     } catch (err) {
       // Any error—use the main token instead
       strapi.log.info(
-        `[${PLUGIN_NAME}] Falling back to main API token due to: ${err.message}`
+        `[${PLUGIN_NAME}] Can not get temp API token due to: ${err.message}`
       );
-      finalToken = apiToken;
     }
 
     // Attach whichever token we ended up with
     ctx.body = {
       ...configData,
-      token: finalToken,
+      apiToken: finalToken,
     };
   },
 };
