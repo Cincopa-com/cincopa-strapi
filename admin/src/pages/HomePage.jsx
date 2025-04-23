@@ -140,7 +140,7 @@ const HomePage = () => {
       if(searchFieldDefault == 'by_asset_id') {
         url += `&rid=${searchValue}`;
       }else if(searchFieldDefault == 'by_title') {
-        url += `&details=${searchValue}`;
+        url += `&search=${searchValue}`;
       }else if(searchFieldDefault == 'by_asset_tag'){
         url += `&tag=${searchValue}`
       }else{

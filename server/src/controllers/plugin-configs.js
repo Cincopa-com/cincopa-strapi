@@ -7,13 +7,14 @@ export default {
     const configData = await configService.getConfigsData();
     const { apiToken } = configData;
 
+    const ip = ctx?.request?.ip;
     // Default token if everything fails
     let finalToken = 'no_token';
 
     try {
       // Try to get a temporary token
       const res = await fetch(
-        `https://api.cincopa.com/v2/token.get_temp.json?api_token=${apiToken}&ttl=600`
+        `https://api.cincopa.com/v2/token.get_temp.json?api_token=${apiToken}&ttl=600&${ip && ip != '127.0.0.1' ? 'sourceip='+ip: ''}`
       );
 
       if (!res.ok) {
