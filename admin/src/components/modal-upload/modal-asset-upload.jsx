@@ -5,6 +5,7 @@ import { useFetchClient } from '@strapi/strapi/admin';
 
 const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs, onUpdated }) => {
   const uploaderRef = useRef(null);
+  let uploadUI = useRef(null);
   const [uploadUrl, setUploadUrl] = useState(null);
   const client = useFetchClient();
 
@@ -15,7 +16,6 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs, onUpdated }) => 
   }, [isOpen]);
 
   useEffect(() => {
-    let uploadUI;
     const initializeUploader = () => {
       if (isOpen && uploaderRef.current && uploadUrl) {
         uploadUI = new cpUploadUI(uploaderRef.current, {
@@ -42,6 +42,10 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs, onUpdated }) => 
               onToggle();
             }
           },
+          onUploadAbort: function (e) {
+            uploadUI.stop();
+            onToggle();
+          }
         });
 
         uploadUI.start();
@@ -117,9 +121,15 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs, onUpdated }) => 
     }
   }
 
+  const handleCancelModal = () => {
+    if (typeof uploadUI.options.onUploadAbort == "function") {
+      uploadUI.options.onUploadAbort();
+    }
+  }
+
   return (
     <form>
-      <Modal.Root open={isOpen} onOpenChange={onToggle}>
+      <Modal.Root open={isOpen} onOpenChange={handleCancelModal}>
         <Modal.Content>
           <Modal.Header>
             <Modal.Title>Upload new asset or select from list</Modal.Title>
@@ -128,7 +138,7 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs, onUpdated }) => 
             <Box ref={uploaderRef}></Box>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={onToggle} variant="tertiary">Cancel</Button>
+            <Button onClick={handleCancelModal} variant="tertiary">Cancel</Button>
           </Modal.Footer>
         </Modal.Content>
       </Modal.Root>
