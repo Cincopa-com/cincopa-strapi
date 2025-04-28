@@ -25,17 +25,17 @@ export default {
     draftAndPublish: false
   },
   attributes: {
-    asset_rid: {
-      label: "Asset RID",
-      type: 'string',
-      required: true,
-      configurable: false,
-    },
     title: {
       label: "Asset Title",
       type: 'string',
       maxLength: 250,
       configurable: true,
+    },
+    asset_rid: {
+      label: "Asset RID",
+      type: 'string',
+      required: true,
+      configurable: false,
     },
     description: {
       label: "Asset Description",
