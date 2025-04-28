@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Layouts, Page } from '@strapi/strapi/admin';
-import { Flex, Grid, Box, SingleSelect, Searchbar, SingleSelectOption, Button } from '@strapi/design-system';
+import { Flex, Grid, Box, SingleSelect, SingleSelectOption, Button } from '@strapi/design-system';
 import Header from '../components/header/index';
 import AssetsList from '../components/assets-list/index';
 import { appendQueryParameter } from '../utils/url';
@@ -40,7 +40,7 @@ const HomePage = () => {
     });
   };
 
-  
+
  useEffect(() => {
     const loadScripts = async () => {
       try {
@@ -56,7 +56,7 @@ const HomePage = () => {
     };
 
     loadScripts();
-  }, []); 
+  }, []);
 
 
   useEffect(() => {
@@ -214,13 +214,39 @@ const HomePage = () => {
           </Grid.Item>
           <Grid.Item col={8} xs={12} s={12}>
             <Box width="100%">
-                <Searchbar
-                  name="searchbar"
-                  onClear={handleClearSearch}
-                  clearLabel="Clear search"
-                  value={searchValue}
-                  onChange={handleOnSearchValueChange}
-                />
+                <div style={{ position: 'relative', width: '100%' }}>
+                  <input
+                    type="text"
+                    name="searchbar"
+                    placeholder="Searching for Cincopa assets"
+                    value={searchValue}
+                    onChange={handleOnSearchValueChange}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #ccc',
+                      borderRadius: '4px',
+                      fontSize: '14px',
+                    }}
+                  />
+                  {searchValue && (
+                    <button
+                      onClick={handleClearSearch}
+                      style={{
+                        position: 'absolute',
+                        right: '10px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        background: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                      }}
+                    >
+                      ✖
+                    </button>
+                  )}
+                </div>
             </Box>
           </Grid.Item>
         </Grid.Root>
