@@ -73,6 +73,10 @@ const HomePage = () => {
     if (searchFieldDefault && searchValue != '') {
       handleLoading(true);
       getFilteredData();
+    }else{
+      if(configs && configs.apiToken && searchValue == ''){
+        fetchData(1);
+      }
     }
 
     if (filterTimer) {
