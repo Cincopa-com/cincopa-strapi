@@ -42,9 +42,11 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs, onUpdated }) => 
               onToggle();
             }
           },
-          onUploadAbort: function (e) {
-            uploadUI.stop();
-            onToggle();
+          onUploadAbort: function () {
+            if(uploadUI){
+              uploadUI.stop();
+              onToggle();
+            }
           }
         });
 
@@ -122,7 +124,7 @@ const ModalNewUpload = ({ isOpen, onToggle = () => {}, configs, onUpdated }) => 
   }
 
   const handleCancelModal = () => {
-    if (typeof uploadUI.options.onUploadAbort == "function") {
+    if (uploadUI && typeof uploadUI.options.onUploadAbort == "function") {
       uploadUI.options.onUploadAbort();
     }
   }
