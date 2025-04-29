@@ -1,5 +1,5 @@
 {
-  "version": "0.0.25",
+  "version": "0.0.26",
   "keywords": [],
   "type": "commonjs",
   "exports": {
@@ -53,10 +53,10 @@
     "kind": "plugin",
     "name": "cincopa-uploader",
     "displayName": "Cincopa Uploader",
-    "description": "Uploade assets to cincopa and use in Strapi"
+    "description": "Upload and manage Cincopa media assets directly from Strapi Admin Panel."
   },
   "name": "strapi-plugin-cincopa-uploader",
-  "description": "",
+  "description": "Upload and manage Cincopa media assets directly from Strapi Admin Panel.",
   "license": "MIT",
   "author": {
     "name": "Cincopa",

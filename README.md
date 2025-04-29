@@ -6,16 +6,17 @@
 [![Downloads](https://img.shields.io/npm/dm/strapi-plugin-cincopa-uploader)](https://www.npmjs.com/package/strapi-plugin-cincopa-uploader)
 [![GitHub issues](https://img.shields.io/github/issues/cincopa-com/strapi-plugin-cincopa-uploader)](https://github.com/cincopa-com/cincopa-strapi/issues)
 
-A Strapi plugin for managing asset uploads to **Cincopa**
+A powerful Strapi plugin for uploading and managing media assets in **Cincopa** directly from the Strapi Admin Panel.
 
 ---
 
 ## ✨ Features
 
-- 📤 Upload assets to Cincopa from inside Strapi (via file or URL)
-- 🔍 Search for assets by **title** or **Cincopa Asset ID**
-- 🗑️ Delete assets in Strapi, which also removes them from Cincopa ( soon )
-- 🔄 Automatically sync asset status via **Cincopa webhooks**
+- 📤 Upload videos, images, and other assets to Cincopa
+- 🔍 Search for assets by title or Cincopa Asset ID
+- 🖝️ Link uploaded assets to custom collection types
+- 🔄 Sync asset status automatically via Cincopa webhooks
+- 🌐 Full Sync Mode for syncing all Cincopa assets
 
 ---
 
@@ -31,33 +32,13 @@ npm install strapi-plugin-cincopa-uploader@latest
 
 ## ⚙️ Configuration
 
-This plugin uses **Strapi's File-Based Configuration**. You must configure it via code — not the Admin UI.
+After installation, configure the plugin based on your project setup.
 
-### 🔑 Requirements
+### Plugin Setup
 
-- A **Cincopa account**
-- A **Cincopa API Token** with **"Full Access"** permissions
-- A **Webhook Signing Secret** (from the Cincopa dashboard)
-
-### 🔧 TypeScript Example
-
-```ts
-// Path: ./config/plugins.ts
-export default ({ env }) => ({
-  'cincopa-uploader': {
-    enabled: true,
-    config: {
-      apiToken: env('CINCOPA_API_TOKEN'),
-      fullCincopaSync: false,
-    },
-  },
-});
-```
-
-### 🔧 JavaScript Example
-
+**JavaScript:**
 ```js
-// Path: ./config/plugins.js
+// ./config/plugins.js
 module.exports = ({ env }) => ({
   'cincopa-uploader': {
     enabled: true,
@@ -69,65 +50,115 @@ module.exports = ({ env }) => ({
 });
 ```
 
-> ✅ Tested with Strapi **v5.0.6 Community Edition**
-
-#### 🧩 About `fullCincopaSync`
-
-The `fullCincopaSync` config option controls whether Strapi should automatically import **all Cincopa assets**, not just the ones uploaded through Strapi.
-
-- If set to `false` (default): Only assets uploaded via Strapi are stored locally.
-- If set to `true`: **All assets uploaded to your Cincopa account**, regardless of source, will be synced to Strapi automatically when webhook events are received.
-
----
-
-## 🪝 Webhook Setup
-
-> ⚠️ Webhook signature verification is currently disabled due to limitations in Koa (used by Strapi) — which prevents access to the raw request body. This may be added in a future update.
-
-To sync asset status from Cincopa:
-
-1. Go to your **Cincopa Dashboard**
-2. Create a new webhook
-3. Set the "URL to notify" as:
-
-```
-https://your-strapi-domain.com/api/cincopa-uploader/webhook
+**TypeScript:**
+```ts
+// ./config/plugins.ts
+export default ({ env }) => ({
+  'cincopa-uploader': {
+    enabled: true,
+    config: {
+      apiToken: env('CINCOPA_API_TOKEN'),
+      fullCincopaSync: false,
+    },
+  },
+});
 ```
 
-> Replace `your-strapi-domain.com` with your actual, publicly accessible Strapi base URL.
+**Environment Variable:**
+```env
+CINCOPA_API_TOKEN=your_actual_api_token_here
+```
 
----
-
-## 🧠 FAQ
-
-### 💡 The plugin doesn't show up in the Admin UI?
-
-You likely need to rebuild the admin panel:
+Restart the server after saving changes:
 
 ```bash
-rm -rf .cache .strapi build
-npm run build
 npm run develop
 ```
 
 ---
 
-### 🌐 I’m developing locally without a public URL — how do I receive webhooks?
+## 📢 Webhook Setup
 
-Use a tunneling service such as:
+Enable real-time synchronization by configuring a webhook in your Cincopa account.
 
-- [Ngrok](https://ngrok.com/)
-- [Smee.io](https://smee.io/)
-- [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/)
-- [Tailscale](https://tailscale.com/)
+- Go to your Cincopa Dashboard
+- Create a new webhook
+- Set the URL:
 
-This will allow you to receive real-time webhook requests from Cincopa while developing locally.
+```
+https://your-strapi-domain.com/api/cincopa-uploader/webhook
+```
+
+> Note: Webhook signature verification is currently **disabled** (may be added in future updates).
+
+For local development, use [ngrok](https://ngrok.com/):
+```bash
+ngrok http 1337
+```
+
+Then set the ngrok public URL in the webhook configuration.
+
+---
+
+## 🌐 Full Sync Mode
+
+If `fullCincopaSync` is set to `true`, the plugin will synchronize **all** assets in your Cincopa account, not only those uploaded via Strapi.
+
+Modify in your plugin config:
+```js
+fullCincopaSync: true
+```
+
+---
+
+## 📅 Usage
+
+### Uploading Assets
+
+- Navigate to **Cincopa Uploader** in the Strapi Admin Panel
+- Upload via **file** or **remote URL**
+- Uploaded media is linked to custom collection types easily
+
+### Asset Management
+
+- Create or update entries by associating uploaded Cincopa assets
+- Example: Create an "IKEA Stores" collection type and attach video tours
+
+### API Access
+
+Enable public API access for your content:
+
+- Go to **Settings > Roles > Public**
+- Enable `find` and `findOne` permissions for your collection types
+
+Fetch your data via:
+```bash
+curl http://localhost:1337/api/ikea-stores
+```
+
+Assets will appear with metadata, media URLs, and thumbnails.
+
+---
+
+## 💡 FAQ
+
+**The plugin doesn't show in Admin UI?**
+
+```bash
+rm -rf .cache build
+npm run build
+npm run develop
+```
+
+**Webhooks don't work locally?**
+
+Use ngrok or a similar tunneling tool.
 
 ---
 
 ## 💬 Support
 
-For help or questions, contact [support@cincopa.com](mailto:support@cincopa.com)
+For assistance, contact [support@cincopa.com](mailto:support@cincopa.com)
 
 ---
 
