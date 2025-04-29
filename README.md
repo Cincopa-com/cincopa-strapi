@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# cincopa-strapi
-=======
 # 🎞️ Strapi Plugin: Cincopa Uploader
 
 [![npm version](https://img.shields.io/npm/v/strapi-plugin-cincopa-uploader?color=blue)](https://www.npmjs.com/package/strapi-plugin-cincopa-uploader)
@@ -168,4 +165,3 @@ For assistance, contact [support@cincopa.com](mailto:support@cincopa.com)
 ## 📄 License
 
 [MIT](./LICENSE)
->>>>>>> master
