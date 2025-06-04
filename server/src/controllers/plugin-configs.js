@@ -6,8 +6,8 @@ export default {
     const configService = strapi.plugin(PLUGIN_NAME).service('configs');
     const configData = await configService.getConfigsData();
     const { apiToken } = configData;
-
-    const ip = ctx?.request?.ip;
+ 
+    const ip = getIPv4(ctx?.request?.ip);
     // Default token if everything fails
     let finalToken = 'no_token';
 
@@ -47,5 +47,21 @@ export default {
       ...configData,
       apiToken: finalToken,
     };
+
+
+
+    function getIPv4(ctx) {
+      const ip = ctx?.request?.ip;
+
+      if (!ip) return false;
+
+      // Handle IPv4-mapped IPv6 format, e.g. ::ffff:192.168.0.1
+      const ipv4Mapped = ip.startsWith('::ffff:') ? ip.replace('::ffff:', '') : ip;
+
+      // Regex to validate IPv4
+      const ipv4Regex = /^(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)){3}$/;
+
+      return ipv4Regex.test(ipv4Mapped) ? ipv4Mapped : false;
+    }
   },
 };
