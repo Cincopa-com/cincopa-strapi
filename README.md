@@ -15,6 +15,7 @@ A powerful Strapi plugin for uploading and managing media assets in **Cincopa** 
 - 📤 **Upload** videos to Cincopa from within Strapi
 - 🎥 Use our customizable, **video players** (mobile and desktop) - available in **multiple styles** such as playlists, Netflix-like galleries, academy and course layouts with multiple playlists, and more
 - ⚡ Deliver content through a top-tier **global CDN** for maximum speed and reliability
+- 🔒 **Enterprise-grade security** - protect your videos with AES encryption, domain and IP restrictions, and expiring embed tokens.
 - 📊 **Analytics**: Dive into layered insights with our three-level analytics
 - 📝 Create, upload, or generate **subtitles/CC** with AI
 - 🎬 Create or auto-generate **chapters** to divide a long video
@@ -24,6 +25,7 @@ A powerful Strapi plugin for uploading and managing media assets in **Cincopa** 
 - 🖼️ Pick or upload a **thumbnail**, or define a video clip as your preview
 - 🌐 Automatic **Video SEO** with structured JSON-LD markup
 - ✂️ Cut, **trim**, and refine your video content
+- 🧩 **API access** - integrate Cincopa with your apps, automate workflows, or build fully custom video experiences.
 ---
 
 <p><img style="width: 100%" alt="Cincopa Strapi Plugin" src="https://raw.githubusercontent.com/Cincopa-com/cincopa-strapi/main/assets/cm-cincopa-strapi.png"></p>
