@@ -1,7 +1,24 @@
 {
-  "version": "0.0.30",
-  "keywords": [],
+  "version": "0.0.31",
+  "keywords": [
+    "strapi",
+    "strapi-plugin",
+    "plugin",
+    "video",
+    "media",
+    "cincopa",
+    "cincopa-strapi",
+    "cincopa-uploader"
+  ],
   "type": "commonjs",
+  "homepage": "https://github.com/Cincopa-com/cincopa-strapi#readme",
+  "bugs": {
+    "url": "https://github.com/Cincopa-com/cincopa-strapi/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Cincopa-com/cincopa-strapi.git"
+  },
   "exports": {
     "./package.json": "./package.json",
     "./strapi-admin": {
